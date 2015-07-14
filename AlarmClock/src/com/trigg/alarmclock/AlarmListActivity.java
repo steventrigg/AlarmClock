@@ -78,25 +78,28 @@ public class AlarmListActivity extends ListActivity {
 	}
 	
 	public void deleteAlarm(long id) {
-		final long alarmId = id;
+	final long alarmId = id;
+		List<AlarmModel> alarms = dbHelper.getAlarms();
+		final long size = alarms.size();
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage("Please confirm")
-		.setTitle("Delete set?")
-		.setCancelable(true)
-		.setNegativeButton("Cancel", null)
-		.setPositiveButton("Ok", new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				//Cancel Alarms
-				AlarmManagerHelper.cancelAlarms(mContext);
-				//Delete alarm from DB by id
-				dbHelper.deleteAlarm(alarmId);
-				//Refresh the list of the alarms in the adaptor
-				mAdapter.setAlarms(dbHelper.getAlarms());
-				//Notify the adapter the data has changed
-				mAdapter.notifyDataSetChanged();
-				//Set the alarms
-				AlarmManagerHelper.setAlarms(mContext);
+		builder.setMessage("Are You Sure To Delete?").setTitle("DELETE !!!!")
+				.setCancelable(true).setNegativeButton("No", null)
+				.setPositiveButton("Yes", new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// Cancel Alarms
+						AlarmManagerHelper.cancelAlarms(mContext);
+						// Delete alarm from DB by id
+						dbHelper.deleteAlarm(alarmId);
+						// Refresh the list of the alarms in the adaptor
+						mAdapter.setAlarms(dbHelper.getAlarms());
+
+						// Notify the adapter the data has changed
+						mAdapter.notifyDataSetChanged();
+						// Set the alarms
+
+						if (size > 1) {
+							AlarmManagerHelper.setAlarms(mContext);
 			}
 		}).show();
 	}
