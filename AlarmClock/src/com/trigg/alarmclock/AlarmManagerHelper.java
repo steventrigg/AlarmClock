@@ -29,7 +29,8 @@ public class AlarmManagerHelper extends BroadcastReceiver {
 		AlarmDBHelper dbHelper = new AlarmDBHelper(context);
 
 		List<AlarmModel> alarms =  dbHelper.getAlarms();
-		
+		if(alarms!=null)
+		{
 		for (AlarmModel alarm : alarms) {
 			if (alarm.isEnabled) {
 
@@ -74,6 +75,8 @@ public class AlarmManagerHelper extends BroadcastReceiver {
 				}
 			}
 		}
+		
+	        }
 	}
 	
 	@SuppressLint("NewApi")
